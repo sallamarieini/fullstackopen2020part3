@@ -1,8 +1,9 @@
-const { response } = require('express')
+const morgan = require('morgan')
 const express = require('express')
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons = [
     {
@@ -24,11 +25,6 @@ let persons = [
         "name": "Mary Poppendieck",
         "number": "39-23-6423122",
         "id": 4
-      },
-      {
-        "name": "Peter Pan",
-        "number": "12-89-1234567",
-        "id": 5
       }
 ]
 
@@ -88,6 +84,12 @@ app.delete('/api/persons/:id', (req, res) => {
 
     res.status(204).end()
 })
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+  
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {

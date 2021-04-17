@@ -97,7 +97,7 @@ app.delete('/api/persons/:id', (req, res) => {
         })
         .catch(error => {
             console.log(error)
-        }
+        })
 })
 
 const unknownEndpoint = (request, response) => {

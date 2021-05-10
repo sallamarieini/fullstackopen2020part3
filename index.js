@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const Person = require('./models/person')
 const express = require('express')
 const cors = require('cors')
-const { response } = require('express')
+const {response} = require('express')
 const app = express()
 
 morgan.token('content', function getContent (req) {
@@ -31,29 +31,6 @@ const errorHandler = (error, request, response, next) => {
     next(error)
 }
 
-let persons = [
-    {
-        "name": "Arto Hellas",
-        "number": "040-123456",
-        "id": 1
-      },
-      {
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523",
-        "id": 2
-      },
-      {
-        "name": "Dan Abramov",
-        "number": "12-43-234345",
-        "id": 3
-      },
-      {
-        "name": "Mary Poppendieck",
-        "number": "39-23-6423122",
-        "id": 4
-      }
-]
-
 app.get('/api/persons', (req, res) => {
     Person.find({}).then(persons => {
         res.json(persons)
@@ -61,10 +38,12 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
-    res.send(
-        `<p> Phonebook has info for ${persons.length} people </p>
-         <p> ${Date()} </p>`
-    )
+    Person.find({}).then(persons => {
+        res.send(
+            `<p> Phonebook has info for ${persons.length} people </p>
+             <p> ${Date()} </p>`
+        )
+    })
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
